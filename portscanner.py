@@ -12,8 +12,8 @@ else:
     print('Invalid amount of arguments.')
     print('Syntax: python3 portscanner.py <ip>')
     print('Exiting the program...')
-    #sys.exit()
-target = '127.0.0.1'
+    sys.exit()
+
 def portscan():
     k = 1
     for port in range(1,65536):
@@ -51,4 +51,4 @@ except socket.error:
 print('-'*50)
 print('Scan Ended: '+str(datetime.now()))
 print('-'*50)
-
+sys.exit()
