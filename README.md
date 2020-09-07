@@ -10,4 +10,4 @@ chmod +x portscanner.py
 ```
 ### Video:
 
-![Port-Scanner](https://github.com/varshithrajbasa/Port-Scanner/blob/master/video/Port-Scanner.mp4 "Fastest Port Scanner")
+![Port-Scanner](https://varshithrajbasa.github.io/files/Port-Scanner/Port-Scanner.mp4 "Fastest Port Scanner")
