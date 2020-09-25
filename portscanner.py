@@ -4,7 +4,7 @@ import sys
 import socket
 from time import sleep
 from datetime import datetime
-print(len(sys.argv))
+
 def helpfun():
     print("""
         Usage:
@@ -45,11 +45,8 @@ if len(sys.argv) >= 2:
         else:
             target = socket.gethostbyname(sys.argv[2])
     if(sys.argv[1] == '-l'):
-        print('list')
-        f = open( sys.argv[2], 'r' )
-        file_contents = f.read()
-        print (file_contents)
-        f.close()
+        print('It will work in Next Update')
+
 else:
     elsefun()
 
