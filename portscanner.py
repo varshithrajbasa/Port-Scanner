@@ -4,6 +4,17 @@ import sys
 import socket
 from datetime import datetime
 
+print("""
+  ____________________
+< Port Scanner v.1.1.2 >
+  --------------------
+         \   ^__^ 
+          \  (oo)\_______
+             (__)\       )\/\\
+                 ||----w |
+                 ||     ||
+""")
+
 if len(sys.argv) > 4:
     if(sys.argv[3] == '-p'):
         if(len(sys.argv)> 5):
@@ -49,7 +60,7 @@ def portscan(target):
         s.close()
     if k == 1:
         print('Last Scanned port {}'.format(p2-1))
-        print('No Ports open.\n\n')
+        print('No Ports open.')
 
 def run(target):
     try:
