@@ -2,8 +2,17 @@
 
 import sys
 import socket
-from time import sleep
 from datetime import datetime
+
+if len(sys.argv) > 4:
+    if(sys.argv[3] == '-p'):
+        if(len(sys.argv)> 5):
+            p1 = int(sys.argv[4])
+            p2 = int(sys.argv[5])+1
+
+else:
+    p1 = 1
+    p2 = 65536
 
 def helpfun():
     print("""
@@ -26,41 +35,7 @@ def elsefun():
     print('Exiting the program...')
     sys.exit()
 
-if(len(sys.argv) == 1 ):
-    helpfun()          
-
-if len(sys.argv) >= 2:
-    if(sys.argv[1] == '--help'):
-        helpfun()  
-    if(sys.argv[1] == '-i'):
-        if(len(sys.argv) == 2):
-            ip = input('Enter ip address: ')
-            target = socket.gethostbyname(ip)
-        else:
-            target = socket.gethostbyname(sys.argv[2])
-    if(sys.argv[1] == '-h'):
-        if(len(sys.argv) == 2):
-            host = input('Enter hostname: ')
-            target = socket.gethostbyname(host)
-        else:
-            target = socket.gethostbyname(sys.argv[2])
-    if(sys.argv[1] == '-l'):
-        print('It will work in Next Update')
-
-else:
-    elsefun()
-
-if len(sys.argv) > 4:
-    if(sys.argv[3] == '-p'):
-        if(len(sys.argv)> 5):
-            p1 = int(sys.argv[4])
-            p2 = int(sys.argv[5])+1
-
-else:
-    p1 = 1
-    p2 = 65536
-
-def portscan():
+def portscan(target):
     k = 1
     for port in range(p1,p2):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -73,26 +48,68 @@ def portscan():
         print (scanupdate, end='\r')
         s.close()
     if k == 1:
-        print('No Ports open.')
+        print('Last Scanned port {}'.format(p2-1))
+        print('No Ports open.\n\n')
 
-print('-'*50)
-print('Scanning target '+target)
-print('Scan Started: '+str(datetime.now()))
-print('-'*50)
+def run(target):
+    try:
+        portscan(target)
 
-try:
-    portscan()
+    except KeyboardInterrupt:
+        print('\n Exiting Program.')
+        sys.exit()
 
-except KeyboardInterrupt:
-    print('\n Exiting Program.')
+    except socket.gaierror:
+        print('Hostname could not be resolved.')
+        sys.exit()
 
-except socket.gaierror:
-    print('Hostname could not be resolved.')
-    sys.exit()
+    except socket.error:
+        print('Can not connect to server.')
+        sys.exit()
 
-except socket.error:
-    print('Can not connect to server.')
-    sys.exit()
+if(len(sys.argv) == 1 ):
+    helpfun()          
+
+if len(sys.argv) >= 2:
+    if(sys.argv[1] == '--help'):
+        helpfun()  
+
+    if(sys.argv[1] == '-i'):
+        if(len(sys.argv) == 2):
+            ip = input('Enter ip address: ')
+            target = socket.gethostbyname(ip)
+        else:
+            target = socket.gethostbyname(sys.argv[2])
+        print('-'*50)
+        print('Scanning target '+target)
+        print('Scan Started: '+str(datetime.now()))
+        print('-'*50)
+        run(target)
+
+    if(sys.argv[1] == '-h'):
+        if(len(sys.argv) == 2):
+            host = input('Enter hostname: ')
+            target = socket.gethostbyname(host)
+        else:
+            target = socket.gethostbyname(sys.argv[2])
+        print('-'*50)
+        print('Scanning target '+target)
+        print('Scan Started: '+str(datetime.now()))
+        print('-'*50)
+        run(target)
+
+    if(sys.argv[1] == '-l'):
+        f = open( sys.argv[2], 'r' )
+        iplists = f.read().split('\n')
+        for target in iplists:
+            print('-'*50)
+            print('Scanning target '+target)
+            print('Scan Started: '+str(datetime.now()))
+            print('-'*50)
+            run(target)
+        
+else:
+    elsefun()
 
 print('-'*50)
 print('Scan Ended: '+str(datetime.now()))
